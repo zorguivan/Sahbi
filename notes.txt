@@ -1,0 +1,47 @@
+For the date input:
+
++ The system will put a placeholder for the date input ( dd/mm/yyyy ).
++ The user starts with selecting a date input.
++ The user enters a character (a keystroke).
++ The system then should accept only numbers. So Else the system will delete from input the last character entered.
+The system then will fill the rest of the date number with underscores and date separators ( _ and / )
+The user continues to fill the input with the second character.
+The system will check again if that is a number or not else it will delete it.
+The system will check what is in the position of the next character.
+The system will replace the underscore with the number, if there is a "/" the system will skip and replace the next underscore.
+The user will enter the third character .
+The system will then check again if it is a number else it will delete it.
+The system will place the next underscore with the number.
+The user will enter the fourth character .
+ In case of deleting the system will delete the "/" with the last number entered.
+The user will then continues to enter the last 4 characters and the system will be checking if it is a number.
+The system will know that entering a date is done.
+The system will split the date to 3 parts, day "/" month "/" year.
+The system will check if that date is valid. Example: ( 30/02/2016 AND 12/20/2016) Won't be valid dates.
+-- If valid the system then will change it to a timestamp and hold the value.
+-- if not valid the system will notify the user that something is wrong and then empty the input.
+Then the system will execute the the onChange function that have been passed to the system.
+
+
+For the time input:
+
+The system will put a placeholder for the time input ( hh:mm )
+The use starts with selecting a time input.
+The user enters a character(a keystroke).
+The system then run a verification to check if it is a number. And it will be deleted by the system in case it is not.
+The system then will fill the rest of the time input with underscores and time separator ( _ and : )
+The user continues with the second character.
+The system then checks if it is a number or not.
+The system will check what is in the position of the next character.
+Then the system will replace the underscore with the value entered
+The user will continue with the third character.
+The system will check if it is a number or not.
+The system will replace the underscore with the number, if there is a ":" the system will skip and replace the next underscore.
+The user will enter the last number
+Then the system replace the underscore with the last number entered.
+The system will check if it is a number or not.
+The system will recognize that it is a full time (length of 5 with the ":").
+The system will separate the time to hours and mins ( hh ":" mm ).
+The system will check if the hours are from 0 -to- 23 and the mins are from 0 -to- 59.
+  -- If valid the system will hold the value.
+  -- if not valid the system will notify the user and then empty the input.

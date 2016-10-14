@@ -1,0 +1,7 @@
+Next Project things that should be done:
+
+-- The ability to add sessions with the enter click (key up).
+-- The update of a session end time should be with the enter click.
+-- The sessions should be ordered in the Project view last date first. and within dates. first time first.
+-- The There should be a drop box of months and years. then only the sessions within that time range will be shown and under that it should display how much hours are selected.
+(if none is selected the bottom should display the total hours that are in the project.)
