@@ -9,7 +9,7 @@ import ProjectEditModal from './ProjectEditModal';
 import NoteEditModal from './NoteEditModal';
 import ConfirmationModal from './ConfirmationModal';
 
-export default class ProjectHeader extends React.Component {
+export class ProjectHeader extends React.Component {
     constructor() {
         super();
         this.state = {};
