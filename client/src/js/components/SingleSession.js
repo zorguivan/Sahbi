@@ -22,10 +22,10 @@ export default class SingleSession extends React.Component {
         SessionsActions.deleteSession(session);
     }
 
-    setTime(validTime, input) {
+    setTime(input, time) {
         this.setState({inputState: 'clear'});
         let state = this.state || {};
-        state.session[input] = validTime;
+        state.session[input] = time;
         this.setState(state);
 
         let timeDifference = TimeKeeper.getTimeDifference(this.state.session.end_time, this.props.session.start_time);
@@ -35,12 +35,16 @@ export default class SingleSession extends React.Component {
                 hours: timeDifference
             }
         });
+        this.update();
     }
-    reportError() {
-        this.setState({inputState: 'error'});
-    }
-    clearErrors(){
-      this.setState({inputState: 'clear'});
+    onError() {
+        NotificationManager.error('The time is not valid, Please try another');
+        this.setState({
+            session: {
+                ...this.state.session,
+                end_time: ''
+            }
+        });
     }
 
     render() {
@@ -50,7 +54,7 @@ export default class SingleSession extends React.Component {
         let session = this.props.session;
         let EndTimeInput = "";
         if (session.end_time.length <= 0) {
-            EndTimeInput = <TimeInput setTime={this.setTime.bind(this)} input='end_time' reportError={this.reportError.bind(this)} addSession={this.update.bind(this)} clearErrors={this.clearErrors.bind(this)}/>
+            EndTimeInput = <TimeInput onChange={this.setTime.bind(this, 'end_time')} onError={this.onError.bind(this)}/>
         }
         return (
             <tr>
@@ -75,13 +79,6 @@ export default class SingleSession extends React.Component {
                 session.end_time = this.state.session.end_time;
                 session.hours = this.state.session.hours;
                 SessionsActions.updateSession(session);
-                this.setState({
-                    session: {
-                        ...this.state.session,
-                        end_time: '',
-                        hours: ''
-                    }
-                });
             }
         }
     }

@@ -1,25 +1,14 @@
 import React from 'react';
-import * as TimeKeeper from '../services/Time_Keeper';
-import {NotificationManager} from 'react-notifications';
 
 export default class DateInput extends React.Component {
-
-    componentDidMount() {
-        if (this.props.input == 'start_time') {
-            this.refs.TimeInput.focus();
+    constructor() {
+        super();
+        this.state = {
+            value: ''
         }
     }
+
     keyUp(e) {
-        if (e.which === 13) {
-            if (this.props.clearErrors) {
-                this.props.clearErrors();
-            }
-            this.props.addSession();
-            if (this.props.input == 'end_time') {
-                this.refs.TimeInput.value = '';
-            }
-            this.refs.TimeInput.focus();
-        }
         if (e.which == 8) {
             let target = e.target.value;
             let mask = '___';
@@ -27,10 +16,10 @@ export default class DateInput extends React.Component {
             target = target.substring(0, target.length - 1);
             if (target.length > 0) {
                 target = target + mask.substr(target.length, mask.length);
-                e.target.value = this.mask(target);
+                this.setState({value: this.mask(target)});
             } else {
-                e.target.value = "";
-                this.props.setTime(target, this.props.input);
+                this.setState({value: ''});
+                this.props.onChange(target);
             }
 
         }
@@ -58,11 +47,10 @@ export default class DateInput extends React.Component {
             target = target.substring(0, target.length - 1);
         } else if (target.length == 4) {
             let time = this.mask(target);
-            if (!TimeKeeper.isValidTime(time)) {
-                NotificationManager.error('time is wrong, Please try again!');
-                this.props.reportError();
+            if (!this.isValidTime(time)) {
+                this.props.onError();
             } else {
-                this.props.setTime(time, this.props.input);
+                this.props.onChange(time);
             }
         } else {
             if (target.length == 1) {
@@ -73,35 +61,43 @@ export default class DateInput extends React.Component {
         }
         target = this.mask(target);
 
-        e.target.value = target;
+        this.setState({value: target});
     }
     render() {
 
-        let time = '';
-        if (this.props.input == 'start_time') {
-            time = TimeKeeper.startTime();
-        }
-        return ( < div > < input name = "time" defaultValue = {
-            time
-        }
-        className = "form-control" placeholder = "hh:mm" ref = "TimeInput" onKeyUp = {
-            this.keyUp.bind(this)
-        }
-        onChange = {
-            this.controller.bind(this)
-        }
-
-        maxLength = "6" / > < /div>
+        return (
+            <div>
+                <input name="time" value={this.state.value || ""} className="form-control" placeholder="hh:mm" ref="TimeInput" onKeyUp={this.keyUp.bind(this)} onChange={this.controller.bind(this)} maxLength="6"/>
+            </div>
         )
+    }
+
+    startTime() {
+        let today = new Date();
+        let h = today.getHours();
+        if (h < 10) {
+            h = "0" + h;
+        }
+        let m = today.getMinutes();
+        if (m < 10) {
+            m = "0" + m;
+        }
+        let time = h + ":" + m;
+        return time
+    }
+    isValidTime(time) {
+        let numTime = time.split(':');
+        numTime[0] = Number(numTime[0]);
+        numTime[1] = Number(numTime[1]);
+
+        if (numTime[0] >= 24 || numTime[1] >= 60) {
+            return false;
+        }
+        return true;
     }
 }
 
 DateInput.propTypes = {
-    type: React.PropTypes.string,
-    mask: React.PropTypes.string,
-    setTime: React.PropTypes.func,
-    input: React.PropTypes.string,
-    reportError: React.PropTypes.func,
-    addSession: React.PropTypes.func,
-    clearErrors: React.PropTypes.func
+    onChange: React.PropTypes.func,
+    onError: React.PropTypes.func,
 }

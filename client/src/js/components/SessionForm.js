@@ -30,10 +30,10 @@ export default class SessionForm extends React.Component {
             }
         });
     }
-    setTime(validTime, input) {
+    setTime(input, time) {
         this.setState({inputState: 'clear'});
         let state = this.state || {};
-        state.session[input] = validTime;
+        state.session[input] = time;
         this.setState(state);
         if (input == 'end_time') {
             let timeDifference = TimeKeeper.getTimeDifference(this.state.session.end_time, this.state.session.start_time);
@@ -45,8 +45,12 @@ export default class SessionForm extends React.Component {
             });
         }
     }
-    reportError() {
-        this.setState({inputState: 'error'});
+    onError(input) {
+      let error = 'The ' + input + ' is not valid, Please try again'
+        NotificationManager.error(error);
+        let state = this.state || {};
+        state.session[input] = '';
+        this.setState(state);
     }
 
     render() {
@@ -80,13 +84,13 @@ export default class SessionForm extends React.Component {
                             <tbody>
                                 <tr>
                                     <td>
-                                        <DateInput setDate={this.setDate.bind(this)} reportError={this.reportError.bind(this)} addSession={this.addSession.bind(this)}/>
+                                        <DateInput onChange={this.setDate.bind(this)} onError={this.onError.bind(this, 'date')}/>
                                     </td>
                                     <td>
-                                        <TimeInput setTime={this.setTime.bind(this)} input='start_time' reportError={this.reportError.bind(this)} addSession={this.addSession.bind(this)}/>
+                                        <TimeInput onChange={this.setTime.bind(this, 'start_time')} onError={this.onError.bind(this, 'start_time')}/>
                                     </td>
                                     <td>
-                                        <TimeInput setTime={this.setTime.bind(this)} input='end_time' reportError={this.reportError.bind(this)} addSession={this.addSession.bind(this)}/>
+                                        <TimeInput onChange={this.setTime.bind(this, 'end_time')} onError={this.onError.bind(this, 'end_time')}/>
                                     </td>
                                     <td>
                                         {timeDifference}
@@ -111,10 +115,10 @@ export default class SessionForm extends React.Component {
                 NotificationManager.error("A field Is Wrong. Please Check your date and times before inserting");
             } else {
                 if (this.state.session.start_time.length == 0) {
-                    NotificationManager.error("The Start Time field cannot be empty, Please enter a time");
+                    NotificationManager.error("The Start Time field cannot be empty, or wrong");
 
                 } else if (this.state.session.date.length == 0) {
-                    NotificationManager.error("The date field cannot be empty, Please enter a date");
+                    NotificationManager.error("The date field cannot be empty, or wrong");
 
                 } else {
                     let session = Object.assign({}, this.state.session);
