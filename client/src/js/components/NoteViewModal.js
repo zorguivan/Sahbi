@@ -26,6 +26,6 @@ export default class NoteViewModal extends React.Component {
 
 NoteViewModal.propTypes = {
   showNoteViewModal: React.PropTypes.bool,
-  closeNoteViewModal: React.PropTypes.bool,
+  closeNoteViewModal: React.PropTypes.func,
   note: React.PropTypes.object
 }

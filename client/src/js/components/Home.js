@@ -6,7 +6,7 @@ import {Button} from 'react-bootstrap';
 import SingleProject from './SingleProject';
 import ProjectAddModal from './ProjectAddModal';
 
-export default class Home extends React.Component {
+export class Home extends React.Component {
     constructor() {
         super();
         this.state = {

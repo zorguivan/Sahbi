@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import * as NotesActions from '../actions/NotesActions';
 import SingleNote from './SingleNote';
 
-export default class Notes extends React.Component {
+export class Notes extends React.Component {
     componentWillMount() {
         let projectId = this.props.params.id;
         NotesActions.getNotes(projectId);

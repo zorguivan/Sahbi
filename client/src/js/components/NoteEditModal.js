@@ -1,6 +1,8 @@
 import React from 'react';
 import {Modal, Button} from 'react-bootstrap';
 import * as NotesActions from '../actions/NotesActions';
+import * as TimeKeeper from '../services/Time_Keeper';
+
 
 export default class NoteEditModal extends React.Component {
     constructor() {
@@ -24,7 +26,7 @@ export default class NoteEditModal extends React.Component {
         } else {
             note.text = this.refs.note.value;
             note.project_id = this.props.project_id;
-            // note.date = TimeKeeper.stampDate(TimeKeeper.startDate());
+            note.date = TimeKeeper.stampDate(TimeKeeper.startDate());
             this.setState({note: note});
         }
         if (note.text.length <= 0 && note.id) {

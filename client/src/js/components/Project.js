@@ -11,7 +11,7 @@ import SessionFrom from './SessionForm';
 import SingleSession from './SingleSession';
 import Search from './Search';
 
-export default class Project extends React.Component {
+export class Project extends React.Component {
 
     componentWillMount() {
         ProjectsActions.getProject(this.props.params.id);
