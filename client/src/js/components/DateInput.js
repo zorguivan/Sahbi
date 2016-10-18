@@ -7,28 +7,34 @@ export default class DateInput extends React.Component {
             value: this.startDate()
         }
     }
-
-    keyUp(e) {
-        if (e.which === 13) {
-            this.props.onChange();
-        }
-        if (e.which == 8) {
-            let target = e.target.value;
-            let mask = '_______';
-            target = target.replace(/\D|_|\//g, '');
-            target = target.substring(0, target.length - 1);
-            if (target.length > 0) {
-                target = target + mask.substr(target.length, mask.length);
-                this.setState({value: this.mask(target)});
-            } else {
-                this.setState({value: target});
-                this.props.onChange(target);
-            }
-
-        }
+    renderString(target, position) {
+        let node  = this.node;
+        node.focus();
+        node.setSelectionRange(position, position);
     }
-
-    mask(target) {
+    monitorKey(e){
+      if(e.which == 8){
+        let target = e.target;
+        let targetValue = target.value.replace(/_/g, '');
+        target.focus();
+        if(targetValue[targetValue.length-1] == '/'){
+          target.setSelectionRange(targetValue.length-1, targetValue.length-1);
+        } else {
+          target.setSelectionRange(targetValue.length, targetValue.length);
+        }
+      }
+      if((e.which >= 48 && e.which <= 57) || (e.which >= 96 && e.which <= 105)){
+        let target = e.target;
+        let targetValue = target.value.replace(/_/g, '');
+        target.focus();
+        if(targetValue[targetValue.length-1] == '/'){
+          target.setSelectionRange(targetValue.length-1, targetValue.length-1);
+        } else {
+          target.setSelectionRange(targetValue.length, targetValue.length);
+        }
+      }
+    }
+      mask(target) {
         target = target.replace(/\D|_|\//g, '');
         if (target.indexOf("/") == -1) {
             if (target.length >= 2) {
@@ -48,12 +54,14 @@ export default class DateInput extends React.Component {
         }
         return target;
     }
+
     controller(e) {
         let target = e.target.value;
-        let mask = '_______';
+        let mask = '_________';
         target = e.target.value.replace(/\D|_|\//g, '');
         if (target.length == 9) {
             target = target.substring(0, target.length - 1);
+
         } else if (target.length == 8) {
             let date = this.mask(target);
             if (!this.isValidDate(date)) {
@@ -67,19 +75,26 @@ export default class DateInput extends React.Component {
             if (target.length == 1) {
                 target = this.mask(target);
                 target = target + mask;
+
             } else if (target.length > 1) {
                 target = this.mask(target);
                 target = target + mask.substr(target.length - 1, mask.length);
+
             }
+            console.log(target);
+
             this.setState({value: target})
         }
+        let raw = target.replace(/\D|_|\//g, '');
+
+        this.renderString(e.target, raw.length)
 
     }
     render() {
 
         return (
             <div>
-                <input type="text" name="date" className="form-control" value={this.state.value || ''} placeholder="dd/mm/yyyy" onKeyUp={this.keyUp.bind(this)} onChange={this.controller.bind(this)} ref="date" maxLength="10"/>
+                <input id="date" name="date" className="form-control" value={this.state.value || ''} placeholder="dd/mm/yyyy" onKeyUp={this.monitorKey.bind(this)} onChange={this.controller.bind(this)} ref={node => this.node = node} maxLength="11"/>
             </div>
         )
     }
