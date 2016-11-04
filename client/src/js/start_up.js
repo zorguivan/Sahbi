@@ -6,9 +6,6 @@ export default function createInitialState(){
     notes : [],
     note : {},
     testData : 'empty',
-    showProjectAddModal: false,
-    showProjectEditModal: false,
-    showNoteEditModal: false,
-    showNoteViewModal: false
+    tracker: false
   }
 }

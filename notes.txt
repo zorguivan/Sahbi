@@ -1,7 +1,7 @@
-- Rename the settime property to onChange.
-
-- The onChange should give the value of the control, so no name of the input should be given. The exact way of usage of the component will be.
-    <TimeInput onChange={function} onError={function} />
-- State changes inside of the component should be from the component tree (setState, state), so if the value of an input changes,
- it should never be by setting the input directly (e.target.value = "something"), but instead make use of the render method. (value={theStateValue}).
-- The component should be completely isolated, so if you would just copy the file to another projects it should work there.
+<Done> - 1.  Changing the starttime, won't recalculate the total, the total should work no matter if you change the start or the endtime.
+<Done> - 2. After adding a session, the starttime en the endtime should be cleared.
+<Done> - 3. Introduce a value property to the DateInput and TimeInput components., if the value given to the control is undefined, the control should empty itself.
+<Done> - 4. The sessions tables, should be ordered on date + time, descending, so the newest date and time will be displayed first.
+<Done> - 5. The total hours in a row, and below in the table should work completely.
+<Done> - 6. In the date options, a selection should be cleared, so if no value is given for the month, or the year, it will display everything.
+7. The month and year filter, should only and always apply if selected, so also after adding new sessions.

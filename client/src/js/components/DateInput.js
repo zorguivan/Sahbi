@@ -7,11 +7,12 @@ export default class DateInput extends React.Component {
             value: this.startDate()
         }
     }
-    renderString(target, position) {
-        let node  = this.node;
-        node.focus();
-        node.setSelectionRange(position, position);
+    componentWillReceiveProps(nextProps){
+      if(nextProps.value == ""){
+        this.setState({value : this.startDate()});
+      }
     }
+
     monitorKey(e){
       if(e.which == 8){
         let target = e.target;
@@ -54,7 +55,6 @@ export default class DateInput extends React.Component {
         }
         return target;
     }
-
     controller(e) {
         let target = e.target.value;
         let mask = '_________';
@@ -81,17 +81,11 @@ export default class DateInput extends React.Component {
                 target = target + mask.substr(target.length - 1, mask.length);
 
             }
-            console.log(target);
 
             this.setState({value: target})
         }
-        let raw = target.replace(/\D|_|\//g, '');
-
-        this.renderString(e.target, raw.length)
-
     }
     render() {
-
         return (
             <div>
                 <input id="date" name="date" className="form-control" value={this.state.value || ''} placeholder="dd/mm/yyyy" onKeyUp={this.monitorKey.bind(this)} onChange={this.controller.bind(this)} ref={node => this.node = node} maxLength="11"/>
@@ -167,5 +161,6 @@ export default class DateInput extends React.Component {
 
 DateInput.propTypes = {
     onChange: React.PropTypes.func,
-    onError: React.PropTypes.func
+    onError: React.PropTypes.func,
+    value: React.PropTypes.string
 }

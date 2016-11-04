@@ -1,11 +1,17 @@
 import React from 'react';
 
-export default class DateInput extends React.Component {
+export default class TimeInput extends React.Component {
     constructor() {
         super();
         this.state = {
             value: ''
         }
+    }
+
+    componentWillReceiveProps(nextProps){
+      if(nextProps.value == ""){
+        this.setState({value : ''});
+      }
     }
 
     monitorKey(e) {
@@ -69,7 +75,7 @@ export default class DateInput extends React.Component {
         if (res.length > 0) {
             this.setState({value: target});
         } else {
-          this.setState({value: ''})
+            this.setState({value: ''})
         }
     }
 
@@ -105,7 +111,8 @@ export default class DateInput extends React.Component {
     }
 }
 
-DateInput.propTypes = {
+TimeInput.propTypes = {
     onChange: React.PropTypes.func,
-    onError: React.PropTypes.func
+    onError: React.PropTypes.func,
+    timeInput: React.PropTypes.func
 }

@@ -12,7 +12,49 @@ export function startTime() {
     return time
 }
 
+export function getMonthStartAsStamp(monthInput, yearInput) {
+    let month = Number(monthInput);
 
+    if (month <= 9) {
+        month = '0' + month;
+    }
+    let date = '01/' + month + '/' + yearInput;
+
+    let stamp = this.stampDate(date);
+
+    return stamp;
+}
+
+export function getNextMonthAsStamp(monthInput, yearInput){
+  let month = Number(monthInput) + 1;
+  let year = yearInput
+
+  if(month == 12){
+    month = 1;
+    year = (Number(year) + 1);
+  }
+  if (month <= 9) {
+      month = '0' + month;
+  }
+
+  let date = '01/' + month + '/' + year;
+
+  let stamp = this.stampDate(date);
+
+  return stamp;
+}
+
+export function getYearStartAsStamp(yearInput){
+  let date = '01/01/' + yearInput;
+  let stamp = this.stampDate(date);
+
+  return stamp;
+}
+export function getNextYearAsStamp(yearInput){
+  let date = '01/01/' + (Number(yearInput) + 1);
+  let stamp = this.stampDate(date);
+  return stamp;
+}
 export function startDate(timeStamp) {
     var today = new Date();
 
@@ -95,8 +137,8 @@ export function getTimeAsNum(time) {
 }
 
 export function getTimeDifference(endTime, startTime) {
-    if(endTime == undefined){
-      return '--:--';
+    if (endTime == undefined) {
+        return '--:--';
     }
 
     let end_time = this.getTimeAsNum(endTime);

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import store from './store/AppStore';
-import { IndexRoute, Router, Route, hashHistory } from 'react-router';
+import { Router, Route, hashHistory } from 'react-router';
 
 import Home from './components/Home';
 import Project from './components/Project';

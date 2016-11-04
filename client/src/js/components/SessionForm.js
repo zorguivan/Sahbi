@@ -17,24 +17,40 @@ export default class SessionForm extends React.Component {
                 end_time: '',
                 hours: ''
             },
-            inputState: 'clear'
+            inputState: 'clear',
+            dateInput: 'progress',
+            timeInput: 'progress'
         }
     }
 
     setDate(dateStamp) {
-        this.setState({inputState: 'clear'});
         this.setState({
             session: {
                 ...this.state.session,
                 date: dateStamp
-            }
+            },
+            dateInput: 'progress',
+            inputState: 'clear'
         });
     }
+
     setTime(input, time) {
-        this.setState({inputState: 'clear'});
         let state = this.state || {};
         state.session[input] = time;
+        state.inputState = 'clear';
+        state.timeInput = 'progress';
         this.setState(state);
+        if (input == 'start_time') {
+            let timeDifference = TimeKeeper.getTimeDifference(this.state.session.end_time, this.state.session.start_time);
+            if (timeDifference != undefined) {
+                this.setState({
+                    session: {
+                        ...this.state.session,
+                        hours: timeDifference
+                    }
+                });
+            }
+        }
         if (input == 'end_time') {
             let timeDifference = TimeKeeper.getTimeDifference(this.state.session.end_time, this.state.session.start_time);
             this.setState({
@@ -45,8 +61,9 @@ export default class SessionForm extends React.Component {
             });
         }
     }
+
     onError(input) {
-      let error = 'The ' + input + ' is not valid, Please try again'
+        let error = 'The ' + input + ' is not valid, Please try again'
         NotificationManager.error(error);
         let state = this.state || {};
         state.session[input] = '';
@@ -54,7 +71,6 @@ export default class SessionForm extends React.Component {
     }
 
     render() {
-
         let timeDifference = '';
         let saveBtn = 'btn btn-primary';
         if (this.state.inputState == 'error') {
@@ -84,13 +100,13 @@ export default class SessionForm extends React.Component {
                             <tbody>
                                 <tr>
                                     <td>
-                                        <DateInput onChange={this.setDate.bind(this)} onError={this.onError.bind(this, 'date')}/>
+                                        <DateInput onChange={this.setDate.bind(this)} value={this.state.dateInput} onError={this.onError.bind(this, 'date')}/>
                                     </td>
                                     <td>
-                                        <TimeInput onChange={this.setTime.bind(this, 'start_time')} onError={this.onError.bind(this, 'start_time')}/>
+                                        <TimeInput onChange={this.setTime.bind(this, 'start_time')} value={this.state.timeInput} onError={this.onError.bind(this, 'start_time')}/>
                                     </td>
                                     <td>
-                                        <TimeInput onChange={this.setTime.bind(this, 'end_time')} onError={this.onError.bind(this, 'end_time')}/>
+                                        <TimeInput onChange={this.setTime.bind(this, 'end_time')} value={this.state.timeInput} onError={this.onError.bind(this, 'end_time')}/>
                                     </td>
                                     <td>
                                         {timeDifference}
@@ -110,6 +126,7 @@ export default class SessionForm extends React.Component {
     }
 
     addSession() {
+
         if (this.state) {
             if (this.state.inputState == 'error') {
                 NotificationManager.error("A field Is Wrong. Please Check your date and times before inserting");
@@ -129,8 +146,11 @@ export default class SessionForm extends React.Component {
                             ...this.state.session,
                             end_time: '',
                             hours: ''
-                        }
+                        },
+                        dateInput: '',
+                        timeInput: ''
                     });
+                    SessionsActions.getProjectSessions(this.props.projectId);
                 }
             }
         }

@@ -2,8 +2,8 @@ import React from 'react';
 import {Button} from 'react-bootstrap';
 import TimeInput from './TimeInput';
 import {NotificationManager} from 'react-notifications';
-import * as TimeKeeper from '../services/Time_Keeper';
 
+import * as TimeKeeper from '../services/Time_Keeper';
 import * as SessionsActions from '../actions/SessionsActions';
 
 export default class SingleSession extends React.Component {
@@ -20,21 +20,15 @@ export default class SingleSession extends React.Component {
 
     deleteSession(session) {
         SessionsActions.deleteSession(session);
+        SessionsActions.getProjectSessions(this.props.projectId);
     }
 
     setTime(input, time) {
         this.setState({inputState: 'clear'});
         let state = this.state || {};
         state.session[input] = time;
+        state.session.hours = TimeKeeper.getTimeDifference(time, this.props.session.start_time);
         this.setState(state);
-
-        let timeDifference = TimeKeeper.getTimeDifference(this.state.session.end_time, this.props.session.start_time);
-        this.setState({
-            session: {
-                ...this.state.session,
-                hours: timeDifference
-            }
-        });
         this.update();
     }
     onError() {
@@ -85,5 +79,6 @@ export default class SingleSession extends React.Component {
 }
 
 SingleSession.propTypes = {
-    session: React.PropTypes.object
+    session: React.PropTypes.object,
+    projectId: React.PropTypes.number
 }
