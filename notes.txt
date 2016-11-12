@@ -1,7 +1,29 @@
-<Done> - 1.  Changing the starttime, won't recalculate the total, the total should work no matter if you change the start or the endtime.
-<Done> - 2. After adding a session, the starttime en the endtime should be cleared.
-<Done> - 3. Introduce a value property to the DateInput and TimeInput components., if the value given to the control is undefined, the control should empty itself.
-<Done> - 4. The sessions tables, should be ordered on date + time, descending, so the newest date and time will be displayed first.
-<Done> - 5. The total hours in a row, and below in the table should work completely.
-<Done> - 6. In the date options, a selection should be cleared, so if no value is given for the month, or the year, it will display everything.
-7. The month and year filter, should only and always apply if selected, so also after adding new sessions.
+Todo Calendar notes.
+For the current week being shown the application will start by getting the date of today then showing it in top so it will be the first of the week - the end of the week as dates.
+so like 06-11-2016 -- 02-11-2016
+
+The two buttons who controls the week view will be responsible for selecting the week and making a get request based on that to the server to get all the todos that are between the time range.
+The first idea of making this possible to try to make it into date stamps and count how many milliseconds in a week and and then show it on the week view.
+The Application will not start by getting all the todos for the week it will only get those on the current week as an initial state. then based on the user selection (Next week or previous week)
+  it will decide what to get and what to show.
+
+The server side and the client side is almost done to just insert a todo.
+Then the view will be fixed where The application will know the weeks
+Then test adding new todos
+Then showing the todos on the page.
+Then adding todos that will be repeated and test for 1 week or two or 3 or four.
+Then updating and deleting.
+
+
+The building steps:
+
+-Making the button that will a new todo.
+-Making the modal that will be shown when the adding button has been pressed.
+-Filling the modal with the initial inputs.
+-Putting in the modal the repeating even part where it will a check box if clicked it will display (1 week, 2 weeks, 3 weeks, 4 weeks).
+
+
+
+// when a todo is repeating the week where the application has been inserted the first time will be the index that will be used to know if it will be shown. so if weekly then the range right ( -> ) will be deviding the
+range so far on the week that the todo has been created and then dividing it and based on that it will show it or not. so if weekly it will be divided on (1) and if the result % 1 == 0 then it will be shown.
+dividing by 1, 2, 3, and 4 will tell from the rest of the number if that todo will be shown or not.

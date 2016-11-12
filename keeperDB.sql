@@ -38,3 +38,28 @@ CREATE TABLE `sessions` (
   KEY `project_id_idx` (`project_id`),
   CONSTRAINT `project_id` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `todos` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `project_id` INT(11) NULL,
+  `name` VARCHAR(85) NOT NULL,
+  `description` MEDIUMTEXT NULL,
+  `repeat` INT(1) NULL,
+  `date` VARCHAR(15) NULL,
+  `end_date` VARCHAR(15) NULL,
+  PRIMARY KEY (`id`, `name`));
+
+ALTER TABLE `keeper`.`todos`
+ADD COLUMN `week` VARCHAR(2) NULL AFTER `end_date`;
+
+ALTER TABLE `keeper`.`todos`
+ADD COLUMN `day` VARCHAR(10) NULL AFTER `week`;
+
+
+CREATE TABLE `keeper`.`todotracker` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `todo_id` INT(20) NULL,
+  `start_range` VARCHAR(45) NULL,
+  `end_range` VARCHAR(45) NULL,
+  `state` INT(1) NULL,
+  PRIMARY KEY (`id`));

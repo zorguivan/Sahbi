@@ -3,6 +3,7 @@ var path = require('path');
 var ProjectsController = require('./controller/ProjectsController');
 var SessionsController = require('./controller/SessionsController');
 var NotesController = require('./controller/NotesController');
+var TodosController = require('./controller/TodosController');
 
 module.exports = function(app){
   function activateRoutes(router) {
@@ -30,6 +31,14 @@ module.exports = function(app){
     router.post('/api/notes', NotesController.addNote);
     router.put('/api/notes', NotesController.updateNote);
     router.delete('/api/notes/:id', NotesController.deleteNote);
+
+    router.post('/api/todos', TodosController.addTodo);
+    router.get('/api/todos/:id', TodosController.getTodos);
+    router.put('/api/todos', TodosController.updateTodo);
+    router.delete('/api/todos/:id', TodosController.deleteTodo);
+    router.get('/api/tracks/:start_range/:end_range', TodosController.getTrack);
+    router.post('/api/tracks', TodosController.trackTodo);
+
     return router;
 
   }

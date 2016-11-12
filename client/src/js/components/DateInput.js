@@ -4,12 +4,18 @@ export default class DateInput extends React.Component {
     constructor() {
         super();
         this.state = {
-            value: this.startDate()
+            value: this.startDate(),
+            initialValue: false
         }
     }
     componentWillReceiveProps(nextProps){
       if(nextProps.value == ""){
         this.setState({value : this.startDate()});
+      }
+    }
+    componentWillMount(){
+      if(this.props.initialValue && this.props.initialValue.length > 0){
+        this.setState({value: '', initialValue: true})
       }
     }
 
@@ -86,9 +92,14 @@ export default class DateInput extends React.Component {
         }
     }
     render() {
+      let initialValue = ''
+
+      if(this.props.initialValue && this.props.initialValue.length > 0){
+        initialValue = this.props.initialValue;
+      }
         return (
             <div>
-                <input id="date" name="date" className="form-control" value={this.state.value || ''} placeholder="dd/mm/yyyy" onKeyUp={this.monitorKey.bind(this)} onChange={this.controller.bind(this)} ref={node => this.node = node} maxLength="11"/>
+                <input id="date" name="date" className="form-control" value={this.state.value || initialValue} placeholder="dd/mm/yyyy" onKeyUp={this.monitorKey.bind(this)} onChange={this.controller.bind(this)} ref={node => this.node = node} maxLength="11"/>
             </div>
         )
     }
@@ -162,5 +173,6 @@ export default class DateInput extends React.Component {
 DateInput.propTypes = {
     onChange: React.PropTypes.func,
     onError: React.PropTypes.func,
-    value: React.PropTypes.string
+    value: React.PropTypes.string,
+    initialValue: React.PropTypes.string
 }

@@ -4,13 +4,19 @@ export default class TimeInput extends React.Component {
     constructor() {
         super();
         this.state = {
-            value: ''
+            value: '',
+            initialValue: false
         }
     }
 
     componentWillReceiveProps(nextProps){
       if(nextProps.value == ""){
         this.setState({value : ''});
+      }
+    }
+    componentWillMount(){
+      if(this.props.initialValue && this.props.initialValue.length > 0){
+        this.setState({initialValue: true})
       }
     }
 
@@ -80,9 +86,14 @@ export default class TimeInput extends React.Component {
     }
 
     render() {
+      let initialValue = ''
+
+      if(this.props.initialValue && this.props.initialValue.length > 0){
+        initialValue = this.props.initialValue;
+      }
         return (
             <div>
-                <input name="time" value={this.state.value || ""} className="form-control" onKeyUp={this.monitorKey.bind(this)} ref={node => this.node = node} placeholder="hh:mm" onChange={this.controller.bind(this)} maxLength="6"/>
+                <input name="time" value={this.state.value || initialValue} className="form-control" onKeyUp={this.monitorKey.bind(this)} ref={node => this.node = node} placeholder="hh:mm" onChange={this.controller.bind(this)} maxLength="6"/>
             </div>
         )
     }
@@ -114,5 +125,6 @@ export default class TimeInput extends React.Component {
 TimeInput.propTypes = {
     onChange: React.PropTypes.func,
     onError: React.PropTypes.func,
-    timeInput: React.PropTypes.func
+    timeInput: React.PropTypes.func,
+    initialValue: React.PropTypes.string
 }

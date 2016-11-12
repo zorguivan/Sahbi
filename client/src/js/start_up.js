@@ -3,9 +3,12 @@ export default function createInitialState(){
     projects : [],
     project : {},
     sessions : [],
+    todos: [],
     notes : [],
     note : {},
+    track: [],
     testData : 'empty',
-    tracker: false
+    tracker: false,
+    todo: {}
   }
 }

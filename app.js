@@ -36,10 +36,12 @@ var tracker = require('./server/modules/tracker/module.js')(app);
 var ProjectsProvider = require('./server/modules/tracker/provider/ProjectsProvider');
 var SessionsProvider = require('./server/modules/tracker/provider/SessionsProvider');
 var NotesProvider = require('./server/modules/tracker/provider/NotesProvider');
+var TodosProvider = require('./server/modules/tracker/provider/TodosProvider');
 
 SessionsProvider.setConnection(connection);
 ProjectsProvider.setConnection(connection);
 NotesProvider.setConnection(connection);
+TodosProvider.setConnection(connection);
 
 var router = express.Router();
 tracker.activateRoutes(router);

@@ -12,6 +12,56 @@ export function startTime() {
     return time
 }
 
+export function getWeekNumber(date) {
+    let d = new Date();
+    if(date){
+      d = convertDateToOriginalForm(date)
+    }
+    d.setHours(0, 0, 0, 0);
+    d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+    let yearStart = new Date(d.getFullYear(), 0, 1);
+    let weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+    return weekNo;
+}
+export function getWeekDay(stamp){
+  let d = new Date();
+  if(stamp){
+    d = new Date(stamp);
+  }
+  let day = d.getDay();
+  return day;
+}
+
+export function getWeekRange(Nr) {
+  let multiplier = Nr * 604800000;
+  let curr = new Date; // get current date
+  let dD = new Date(curr.getTime() + multiplier);
+    let first = dD.getDate() - dD.getDay(); // First day is the day of the month - the day of the week
+    let last = first + 6; // last day is the first day + 6
+    let firstday = new Date(dD.setDate(first)).toUTCString();
+    let lastday = new Date(dD.setDate(last)).toUTCString();
+    let result = [this.formattedDate(firstday), this.formattedDate(lastday)];
+
+    return result;
+}
+
+export function convertDateToOriginalForm(d){
+  let date = d.split('/');
+  return new Date([date[1], date[0], date[2]].join('/'));
+}
+
+export function formattedDate(date) {
+    let d = new Date(date || Date.now()),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [day, month, year].join('/');
+}
+
 export function getMonthStartAsStamp(monthInput, yearInput) {
     let month = Number(monthInput);
 
@@ -25,38 +75,38 @@ export function getMonthStartAsStamp(monthInput, yearInput) {
     return stamp;
 }
 
-export function getNextMonthAsStamp(monthInput, yearInput){
-  let month = Number(monthInput) + 1;
-  let year = yearInput
+export function getNextMonthAsStamp(monthInput, yearInput) {
+    let month = Number(monthInput) + 1;
+    let year = yearInput
 
-  if(month == 12){
-    month = 1;
-    year = (Number(year) + 1);
-  }
-  if (month <= 9) {
-      month = '0' + month;
-  }
+    if (month == 12) {
+        month = 1;
+        year = (Number(year) + 1);
+    }
+    if (month <= 9) {
+        month = '0' + month;
+    }
 
-  let date = '01/' + month + '/' + year;
+    let date = '01/' + month + '/' + year;
 
-  let stamp = this.stampDate(date);
+    let stamp = this.stampDate(date);
 
-  return stamp;
+    return stamp;
 }
 
-export function getYearStartAsStamp(yearInput){
-  let date = '01/01/' + yearInput;
-  let stamp = this.stampDate(date);
+export function getYearStartAsStamp(yearInput) {
+    let date = '01/01/' + yearInput;
+    let stamp = this.stampDate(date);
 
-  return stamp;
+    return stamp;
 }
-export function getNextYearAsStamp(yearInput){
-  let date = '01/01/' + (Number(yearInput) + 1);
-  let stamp = this.stampDate(date);
-  return stamp;
+export function getNextYearAsStamp(yearInput) {
+    let date = '01/01/' + (Number(yearInput) + 1);
+    let stamp = this.stampDate(date);
+    return stamp;
 }
 export function startDate(timeStamp) {
-    var today = new Date();
+    let today = new Date();
 
     if (timeStamp) {
         today = new Date(Number(timeStamp));
