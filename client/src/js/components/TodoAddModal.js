@@ -131,7 +131,7 @@ export default class TodoAddModal extends React.Component {
                     <label className="col-md-4 control-label">End Date :
                     </label>
                     <div className="col-md-8">
-                        <DateInput initialValue={''} onChange={this.setDate.bind(this, 'endDate')} value={this.state.dateInput} onError={this.onError.bind(this, 'endDate')}/>
+                        <DateInput initialValue={'Empty'} onChange={this.setDate.bind(this, 'endDate')} value={this.state.dateInput} onError={this.onError.bind(this, 'endDate')}/>
                     </div>
                 </div>
             </div>

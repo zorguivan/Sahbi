@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-// import {NotificationContainer, NotificationManager} from 'react-notifications';
+import {NotificationManager} from 'react-notifications';
 
 import * as TimeKeeper from '../services/Time_Keeper';
 import * as TodosActions from '../actions/TodosActions';
@@ -67,10 +67,6 @@ export class Todos extends React.Component {
             return true;
           }
           if((this.state.globalCounter != 0  && TimeKeeper.stampDate(WeekRange[0]) < startDate ) || ( endDate  && TimeKeeper.stampDate(WeekRange[1]) > endDate)){
-            console.log('Hitted false');
-            console.log(todo.name);
-            console.log(startDate, endDate);
-            console.log(TimeKeeper.stampDate(WeekRange[0]), TimeKeeper.stampDate(WeekRange[1]));
             return false;
           }
           if(this.state.globalCounter != 0  && TimeKeeper.stampDate(WeekRange[0]) < startDate && !endDate){

@@ -9,6 +9,9 @@ export default class DateInput extends React.Component {
         }
     }
     componentWillReceiveProps(nextProps){
+      if(nextProps.value == 'Empty'){
+        this.setState({value : ''});
+        }
       if(nextProps.value == ""){
         this.setState({value : this.startDate()});
       }
@@ -95,7 +98,11 @@ export default class DateInput extends React.Component {
       let initialValue = ''
 
       if(this.props.initialValue && this.props.initialValue.length > 0){
+        if(this.props.initialValue == "Empty"){
+          initialValue = '';
+        } else {
         initialValue = this.props.initialValue;
+        }
       }
         return (
             <div>

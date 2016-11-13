@@ -28,7 +28,6 @@ export default class Todo extends React.Component {
     track.start_range = TimeKeeper.stampDate(WeekRange[0]);
     track.end_range = TimeKeeper.stampDate(WeekRange[1]);
     track.state = 1;
-    console.log(track);
     this.setState({tracked: true});
     TodosActions.trackTodo(track);
     this.props.changeView();
