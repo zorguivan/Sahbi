@@ -11,6 +11,8 @@ export function getSessions() {
 
 export function getProjectSessions(projectId) {
     axios.get('/api/sessions/' + projectId).then((res) => {
+      console.log(projectId);
+      console.log(res.data);
         store.dispatch({type: "GET_PROJECT_SESSIONS", sessions: res.data});
     }).catch((error) => {
         store.dispatch({type: "SERVER_ERROR", error: error});

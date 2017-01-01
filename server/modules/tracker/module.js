@@ -9,12 +9,18 @@ module.exports = function(app){
   function activateRoutes(router) {
     router.use(activateServer());
   }
+  function isLoggedIn(req, res, next) {
+      if (req.isAuthenticated())
+          return next();
+
+      res.send([{restricted: true}])
+  }
 
   function activateServer(app) {
     router = express.Router();
 
-    router.get('/api/projects', ProjectsController.getProjects);
-    router.get('/api/projects/:id', ProjectsController.getProject);
+    router.get('/api/projects' , isLoggedIn,  ProjectsController.getProjects);
+    router.get('/api/projects/:id', isLoggedIn, ProjectsController.getProject);
     router.post('/api/projects', ProjectsController.addProject);
     router.put('/api/projects', ProjectsController.updateProject);
     router.delete('/api/projects/:id', ProjectsController.deleteProject);
@@ -26,8 +32,8 @@ module.exports = function(app){
     router.put('/api/sessions', SessionsController.updateSession);
     router.delete('/api/sessions/:id', SessionsController.deleteSession);
 
-    router.get('/api/notes/:date', NotesController.getNote);
-    router.get('/api/p_notes/:id', NotesController.getNotes);
+    router.get('/api/notes/:date', isLoggedIn, NotesController.getNote);
+    router.get('/api/p_notes/:id', isLoggedIn, NotesController.getNotes);
     router.post('/api/notes', NotesController.addNote);
     router.put('/api/notes', NotesController.updateNote);
     router.delete('/api/notes/:id', NotesController.deleteNote);
@@ -38,6 +44,7 @@ module.exports = function(app){
     router.delete('/api/todos/:id', TodosController.deleteTodo);
     router.get('/api/tracks/:start_range/:end_range', TodosController.getTrack);
     router.post('/api/tracks', TodosController.trackTodo);
+    router.get('/api/todos/:stamp/:id', TodosController.getDailyTodos);
 
     return router;
 

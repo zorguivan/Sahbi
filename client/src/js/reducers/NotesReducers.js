@@ -1,9 +1,13 @@
+import Immutable from 'immutable';
+
 const NotesReducers = {
   'GET_NOTES': (state, action) => {
-    return Object.assign({}, state, {notes : action.notes});
+    state = Immutable.fromJS(state).set('notes', action.notes).toJS();
+    return state;
   },
   'GET_NOTE' : (state, action) => {
-    return Object.assign({}, state, {note: action.note});
+    state = Immutable.fromJS(state).set('note', action.note).toJS();
+    return state;
   },
   'SERVER_ERROR' : (state, action) => {
     console.log(action.error);

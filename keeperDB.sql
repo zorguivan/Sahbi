@@ -63,3 +63,12 @@ CREATE TABLE `keeper`.`todotracker` (
   `end_range` VARCHAR(45) NULL,
   `state` INT(1) NULL,
   PRIMARY KEY (`id`));
+
+  CREATE TABLE `keeper`.`users` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(120) NULL,
+  `password` VARCHAR(120) NULL,
+  PRIMARY KEY (`id`));
+
+
+  INSERT INTO `keeper`.`users` (`id`, `username`, `password`) VALUES ('1', 'admin', 'ThisisAdmin');

@@ -3,6 +3,7 @@ import axios from 'axios';
 
 export function getProjects(){
   axios.get('/api/projects').then((res) => {
+
     store.dispatch({
       type: 'GET_PROJECTS',
       projects: res.data

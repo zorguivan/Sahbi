@@ -48,3 +48,12 @@ export function trackTodo(detail) {
         store.dispatch({type: 'SERVER_ERROR', error: error});
     })
 }
+export function getDailyTodos(stamp, projectId){
+  axios.get('/api/todos/' + stamp + '/' + projectId).then((res) => {
+    console.log('This is todos actions --- Client Side')
+    console.log(res);
+    store.dispatch({ type: 'GET_DAILY_TODOS', todos: res.data});
+  }).catch((error) => {
+      store.dispatch({type: 'SERVER_ERROR', error: error});
+  })
+}

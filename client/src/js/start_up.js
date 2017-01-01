@@ -1,3 +1,5 @@
+import Immutable from 'immutable';
+
 export default function createInitialState(){
   return {
     projects : [],

@@ -10,9 +10,18 @@ function TodosController() {
         updateTodo: updateTodo,
         deleteTodo: deleteTodo,
         trackTodo: trackTodo,
-        getTrack: getTrack
+        getTrack: getTrack,
+        getDailyTodos: getDailyTodos
     }
 
+    function getDailyTodos(req, res, next){
+      TodosProvider.getDailyTodos(req.params.stamp, req.params.id).then(function(result){
+        console.log('Daily todos recieved');
+        res.json(result);
+      }).catch(function(err) {
+          res.status(500).send(err);
+      });
+    }
 
     function addTodo(req, res, next) {
       console.log('Todo adding- TodosController')

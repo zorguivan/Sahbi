@@ -6,15 +6,19 @@ import {browserHistory} from 'react-router'
 
 export default class ConfirmationBox extends React.Component {
 
-    deleteProject(project) {
-      ProjectsActions.deleteProject(project.id);
+    deleteProject(projectId) {
+      ProjectsActions.deleteProject(projectId);
       browserHistory.goBack()
       // this.props.closeConfirmationModal()
     }
     render() {
         let showConfirmationModal = this.props.showConfirmationModal;
-        let project = this.props.project;
-
+        let projectName;
+        let projectId;
+        if(this.props.project){
+          projectName = this.props.project.name;
+          projectId = this.props.project.id;
+        }
         return (
             <Modal show={showConfirmationModal} onHide={this.props.closeConfirmationModal}>
                 <Modal.Header closeButton>
@@ -22,11 +26,11 @@ export default class ConfirmationBox extends React.Component {
                 </Modal.Header>
                 <Modal.Body>
                     <form className="form-horizontal">
-                        <div className="form-group"><label>Are you sure you want to delete the project : <p>{project.name}</p></label></div>
+                        <div className="form-group"><label>Are you sure you want to delete the project : <p>{projectName}</p></label></div>
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={this.deleteProject.bind(this, project)} bsStyle="danger">Delete</Button>
+                    <Button onClick={this.deleteProject.bind(this, projectId)} bsStyle="danger">Delete</Button>
                     <Button onClick={this.props.closeConfirmationModal} bsStyle="default">Cancel</Button>
                 </Modal.Footer>
             </Modal>

@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 import TimeInput from './TimeInput';
 import DateInput from './DateInput';
@@ -27,7 +26,6 @@ export class Hours extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        NotificationManager.info('Loading Data..');
         if ( this.state && this.state.searchQuery && nextProps.tracker) {
             let query = this.state.searchQuery;
             SessionsActions.search(query[0], query[1], query[2]);
@@ -36,7 +34,12 @@ export class Hours extends React.Component {
     }
 
     render() {
+      console.log(this.props.sessions);
         let project = this.props.project;
+        let projectId ;
+        if(this.props.project){
+          projectId = this.props.project.id;
+        }
         let totalHours = 0;
 
         let sessions = <tr>
@@ -46,7 +49,7 @@ export class Hours extends React.Component {
             </td>
         </tr>
 
-        if (this.props.sessions.length > 0) {
+        if (this.props.sessions && this.props.sessions.length > 0) {
             sessions = this.props.sessions;
 
             sessions.sort(function(a, b) {
@@ -81,12 +84,10 @@ export class Hours extends React.Component {
                 return <SingleSession key={session.id} session={session} projectId={this.props.project.id}/>
             });
         }
-
         return (
             <div>
-                <SessionFrom projectId={project.id}/>
+                <SessionFrom projectId={projectId}/>
                 <div>
-                    <NotificationContainer/>
                 </div>
                 <div className="jumbotron ">
                     <div id="sessionsContainer">

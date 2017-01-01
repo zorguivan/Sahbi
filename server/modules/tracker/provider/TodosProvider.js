@@ -10,11 +10,27 @@ function TodosProvider() {
         updateTodo: updateTodo,
         deleteTodo: deleteTodo,
         getTrack: getTrack,
-        trackTodo: trackTodo
+        trackTodo: trackTodo,
+        getDailyTodos: getDailyTodos
     }
 
     function setConnection(conn) {
         connection = conn;
+    }
+
+    function getDailyTodos(stamp, id){
+      console.log('Daily todos has been asked.');
+      var execution = q.defer();
+      var query = 'SELECT * FROM todos WHERE date = :date AND project_id = :id';
+      connection.query(query, {date: stamp, id: id}, function(err, res){
+        console.log(res);
+        if(err){
+          console.log(err);
+          execution.reject(err);
+        }
+        execution.resolve(res);
+      });
+      return execution.promise;
     }
 
     function addTodo(todo) {

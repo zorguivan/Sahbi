@@ -9,12 +9,23 @@ export class Notes extends React.Component {
         let projectId = this.props.params.id;
         NotesActions.getNotes(projectId);
     }
+    componentWillReceiveProps(nextprops) {
+        console.log(nextprops);
+        if (nextprops.notes && nextprops.notes[0].restricted) {
+            this.redirectUser();
+        }
+    }
+    redirectUser() {
+        document.location.href = 'http://localhost:3000/login';
+    }
 
     render() {
-        let notes = this.props.notes.map((note) => {
-            return <SingleNote key={note.id} note={note}/>
-        });
-
+      let notes = '';
+        if (this.props.notes && this.props.notes.length > 0) {
+             notes = this.props.notes.map((note) => {
+                return <SingleNote key={note.id || 0} note={note}/>
+            });
+        }
         return (
             <div className="jumbotron">
 
@@ -43,6 +54,6 @@ export default connect((state) => {
 })(Notes);
 
 Notes.propTypes = {
-  params: React.PropTypes.object,
-  notes: React.PropTypes.array
+    params: React.PropTypes.object,
+    notes: React.PropTypes.array
 }

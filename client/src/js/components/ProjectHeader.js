@@ -33,13 +33,22 @@ export class ProjectHeader extends React.Component {
         let showProjectEditModal = this.state.showProjectEditModal;
         let showNoteEditModal = this.state.showNoteEditModal;
         let showConfirmationModal = this.state.showConfirmationModal;
-        let data = this.props.project;
-        let note = this.props.note;
-
+        let data;
+        let projectId;
+        let note;
+        let projectName;
+        if (this.props.project) {
+            data = this.props.project;
+            projectId = this.props.project.id
+            projectName = this.props.project.name;
+        }
+        if (this.props.note) {
+            note = this.props.note;
+        }
         return (
             <div className="jumbotron">
                 <ProjectEditModal showProjectEditModal={showProjectEditModal} closeProjectEditModal={this.closeModal.bind(this, 'showProjectEditModal')} project={data}/>
-                <NoteEditModal showNoteEditModal={showNoteEditModal} closeNoteEditModal={this.closeModal.bind(this, 'showNoteEditModal')} project_id={data.id} note={note}/>
+                <NoteEditModal showNoteEditModal={showNoteEditModal} closeNoteEditModal={this.closeModal.bind(this, 'showNoteEditModal')} project_id={projectId} note={note}/>
                 <ConfirmationModal showConfirmationModal={showConfirmationModal} closeConfirmationModal={this.closeModal.bind(this, 'showConfirmationModal')} project={data}/>
                 <div className="row">
                     <div className="col-md-2">
@@ -47,7 +56,7 @@ export class ProjectHeader extends React.Component {
                         </h3>
                     </div>
                     <div className="col-md-3">
-                        <h3>{this.props.project.name}</h3>
+                        <h3>{projectName}</h3>
                     </div>
                     <div className="col-md-2"></div>
 
@@ -58,7 +67,7 @@ export class ProjectHeader extends React.Component {
                     </div>
 
                     <div className="col-md-1">
-                        <Link to={"/notes/" + data.id}>
+                        <Link to={"/notes/" + projectId}>
                             <button type="button" className="btn-lg btn-success">
                                 <span className="glyphicon glyphicon-folder-open"></span>
                             </button>
@@ -87,6 +96,6 @@ export default connect((state) => {
 })(ProjectHeader);
 
 ProjectHeader.propTypes = {
-  project: React.PropTypes.object,
-  note: React.PropTypes.object
+    project: React.PropTypes.object,
+    note: React.PropTypes.object
 }

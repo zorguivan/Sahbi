@@ -28,7 +28,10 @@ export default class ProjectEditModal extends React.Component {
     }
 
     render() {
-
+      let projectName;
+      if(this.props.project){
+        projectName = this.props.project.name;
+      }
         let showProjectEditModal = this.props.showProjectEditModal;
         return (
 
@@ -40,7 +43,7 @@ export default class ProjectEditModal extends React.Component {
                     <div className="row">
                         <label className="col-sm-4 control-label">Project Name</label>
                         <div className="col-sm-6">
-                            <input type="text" className="form-control" placeholder="Name" value={this.props.project.name} onChange={this.handleChange.bind(this)} ref="projectName"/>
+                            <input type="text" className="form-control" placeholder="Name" value={projectName} onChange={this.handleChange.bind(this)} ref="projectName"/>
                         </div>
                     </div>
                 </Modal.Body>

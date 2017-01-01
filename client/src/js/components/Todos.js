@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {NotificationManager} from 'react-notifications';
 
 import * as TimeKeeper from '../services/Time_Keeper';
 import * as TodosActions from '../actions/TodosActions';
@@ -120,8 +119,9 @@ export class Todos extends React.Component {
 
       let showTodoAddModal = this.state.showTodoAddModal;
       let WeekRange = TimeKeeper.getWeekRange(this.state.globalCounter);
-
-        let todos = this.props.todos.map((todo) => {
+      let todos = '';
+      if(this.props.todos && this.props.todos.length > 0){
+         todos = this.props.todos.map((todo) => {
           if(this.filterView(todo)){
             let track = this.props.track;
             let trackHolder = 0;
@@ -138,6 +138,7 @@ export class Todos extends React.Component {
             }
           }
         });
+        }
         return (
             <div>
                 <TodoAddModal showTodoAddModal={showTodoAddModal} closeTodoAddModal={this.closeModal.bind(this, 'showTodoAddModal')} projectId={this.props.projectId}/>

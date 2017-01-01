@@ -11,14 +11,15 @@ export default class ProjectAddModal extends React.Component {
         if(project.name.length > 0){
           ProjectsActions.addProject(project);
         }
-        this.props.closeModal();
+        this.props.closeProjectAddModal();
     }
 
     render() {
         let showProjectAddModal = this.props.showProjectAddModal;
+        console.log(this.props)
         return (
 
-            <Modal show={showProjectAddModal} onHide={this.props.closeModal}>
+            <Modal show={showProjectAddModal} onHide={this.props.closeProjectAddModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Adding Project</Modal.Title>
                 </Modal.Header>
@@ -31,7 +32,7 @@ export default class ProjectAddModal extends React.Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={this.props.closeModal}>Close</Button>
+                    <Button onClick={this.props.closeProjectAddModal}>Close</Button>
                     <Button bsStyle="primary" onClick={this.addProject.bind(this)}>Add</Button>
                 </Modal.Footer>
             </Modal>
@@ -41,5 +42,5 @@ export default class ProjectAddModal extends React.Component {
 
 ProjectAddModal.propTypes = {
   showProjectAddModal: React.PropTypes.bool,
-  closeModal: React.PropTypes.func
+  closeProjectAddModal: React.PropTypes.func
 }
